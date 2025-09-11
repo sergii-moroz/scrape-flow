@@ -2,6 +2,7 @@ import BreadcrumbHeader from "@/components/breadcrumb-header";
 import DesktopSidebar from "@/components/sidebar";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Separator } from "@/components/ui/separator";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { ReactNode } from "react";
 
 function Layout({ children }: { children: ReactNode }) {
@@ -13,8 +14,11 @@ function Layout({ children }: { children: ReactNode }) {
 
 				<header className="flex items-center justify-between px-8 py-4">
 					<BreadcrumbHeader />
-					<div className="gap-1 flex items-center">
+					<div className="gap-4 flex items-center">
 						<ModeToggle />
+						<SignedIn>
+							<UserButton />
+						</SignedIn>
 					</div>
 				</header>
 
