@@ -10,22 +10,22 @@ import { useState } from "react"
 
 const routes = [
 	{
-		href:		"",
+		href:		"/",
 		label:	"Home",
 		icon:		HomeIcon,
 	},
 	{
-		href:		"workflows",
+		href:		"/workflows",
 		label:	"Workflows",
 		icon:		Layers2Icon,
 	},
 	{
-		href:		"credentials",
+		href:		"/credentials",
 		label:	"Credentials",
 		icon:		ShieldCheckIcon,
 	},
 	{
-		href:		"billing",
+		href:		"/billing",
 		label:	"Billing",
 		icon:		CoinsIcon,
 	},
@@ -33,7 +33,6 @@ const routes = [
 
 function DesktopSidebar() {
 	const pathname = usePathname()
-	const activeRoute = routes.find(route => route.href.length > 0 && pathname.includes(route.href)) || routes[0]
 
 	return (
 		<div className="hidden relative md:block h-screen overflow-hidden bg-gray-50 dark:bg-secondary/30 dark:text-foreground text-muted-foreground border-r-1 border-separate">
@@ -42,19 +41,25 @@ function DesktopSidebar() {
 			</div>
 			<div>TODO CREDITS</div>
 			<div className="flex flex-col px-2 py-4">
-				{routes.map(route => (
+				{routes.map(route => {
+
+					const isActive = route.href === "/"
+						? pathname === "/"
+						: pathname === route.href || pathname.startsWith(`${route.href}/`)
+
+						return (
 					<Link
 						key={route.href}
 						href={route.href}
 						className={buttonVariants({
 							variant:
-								activeRoute.href === route.href ? "sidebarActiveItem" : "sidebarItem"
+								isActive ? "sidebarActiveItem" : "sidebarItem"
 						})}
 					>
 						<route.icon size={20} />
 						{route.label}
 					</Link>
-				))}
+				)})}
 			</div>
 		</div>
 	)
@@ -65,7 +70,6 @@ export default DesktopSidebar
 export function MobileSidebar() {
 	const [isOpen, setIsOpen] = useState(false)
 	const pathname = usePathname()
-	const activeRoute = routes.find(route => route.href.length > 0 && pathname.includes(route.href)) || routes[0]
 
 	return (
 		<div className="block border-separate bg-background md:hidden">
@@ -85,20 +89,26 @@ export function MobileSidebar() {
 						</div>
 
 						<div className="flex flex-col px-4">
-							{routes.map(route => (
-								<Link
-									key={route.href}
-									href={route.href}
-									className={buttonVariants({
-										variant:
-											activeRoute.href === route.href ? "sidebarActiveItem" : "sidebarItem"
-									})}
-									onClick={() => setIsOpen(prev => !prev)}
-								>
-									<route.icon size={20} />
-									{route.label}
-								</Link>
-							))}
+							{routes.map(route => {
+
+					const isActive = route.href === "/"
+						? pathname === "/"
+						: pathname === route.href || pathname.startsWith(`${route.href}/`)
+
+						return (
+							<Link
+								key={route.href}
+								href={route.href}
+								className={buttonVariants({
+									variant:
+										isActive ? "sidebarActiveItem" : "sidebarItem"
+								})}
+								onClick={() => setIsOpen(prev => !prev)}
+							>
+								<route.icon size={20} />
+								{route.label}
+							</Link>
+						)})}
 						</div>
 
 					</SheetContent>
