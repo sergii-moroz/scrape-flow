@@ -11,6 +11,7 @@ import { CreateWorkflowSchema, CreateWorkflowSchemaType } from "@/schema/workflo
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { Layers2Icon, Loader2Icon } from "lucide-react"
+import { redirect, useRouter } from "next/navigation"
 import { useCallback, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -22,6 +23,7 @@ function CreateWorkflowDialog({
 }) {
 	const [open, setOpen] = useState(false)
 	const toastId = useRef(`create-workflow-${crypto.randomUUID()}`).current
+	const router = useRouter()
 
 	const form = useForm<CreateWorkflowSchemaType>({
 		resolver: zodResolver(CreateWorkflowSchema),
@@ -32,11 +34,13 @@ function CreateWorkflowDialog({
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: CreateWorkflow,
-		onSuccess: () => {
+		onSuccess: (workflowId) => {
 			toast.success("Workflow created", { id: toastId })
+			setOpen(prev => !prev)
+			router.push(`/workflow/editor/${workflowId}`)
 		},
 		onError: () => {
-			toast.error("Failed to create workflow", { id: toastId })
+			toast.error("Failed to create workflow (frontend side)", { id: toastId })
 		}
 	})
 
