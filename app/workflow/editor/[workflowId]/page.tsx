@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import { auth } from "@clerk/nextjs/server"
+import Editor from "@/app/workflow/_components/editor"
 
 async function Page(props: PageProps<'/workflow/editor/[workflowId]'>) {
 
@@ -19,11 +20,7 @@ async function Page(props: PageProps<'/workflow/editor/[workflowId]'>) {
 		<div>Workflow not found</div>
 	)
 
-	return (
-		<pre>
-			{JSON.stringify(workflow, null, 4)}
-		</pre>
-	)
+	return <Editor workflow={workflow} />
 }
 
 export default Page
