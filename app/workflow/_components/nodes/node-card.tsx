@@ -18,7 +18,7 @@ function NodeCard({
 	return (
 		<div
 			className={cn(
-				"rounded-md cursor-pointer bg-background border-1 w-[400px] text-xs gap-1 flex flex-col",
+				"rounded-md cursor-pointer bg-background border-1 w-[400px] text-xs flex flex-col",
 				isSelected && "border-primary"
 			)}
 			onDoubleClick={() => {

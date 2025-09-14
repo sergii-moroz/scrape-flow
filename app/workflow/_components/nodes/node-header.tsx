@@ -10,7 +10,7 @@ function NodeHeader({taskType}: {taskType: TaskType}) {
 	const task = TaskRegistry[taskType]
 
 	return (
-		<header className="flex items-center gap-2 p-2">
+		<header className="flex items-center gap-2 p-2 border-b-2">
 			<task.icon size={16} />
 			<div className="flex justify-between items-center gap-1 w-full">
 				<p className="text-xs font-bold uppercase text-muted-foreground">

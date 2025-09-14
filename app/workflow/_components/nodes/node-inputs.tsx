@@ -3,6 +3,7 @@ import { TaskParam } from "@/types/task";
 import { Handle, Position } from "@xyflow/react";
 import { ReactNode } from "react";
 import NodeParamField from "./node-param-field";
+import { ColorForHandle } from "./common";
 
 export function NodeInputs({
 	children
@@ -10,7 +11,7 @@ export function NodeInputs({
 	children: ReactNode
 }) {
 	return (
-		<div className="flex flex-col divide-y gap-2">
+		<div className="flex flex-col divide-y-2 border-b-2 ">
 			{children}
 		</div>
 	)
@@ -31,7 +32,10 @@ export function NodeInput({
 					id={input.name}
 					type="target"
 					position={Position.Left}
-					className={cn("!bg-muted-foreground !border-2 !border-background !w-4 !h-4")}
+					className={cn(
+						"!bg-muted-foreground !border-2 !border-background !w-4 !h-4",
+						ColorForHandle[input.type]
+					)}
 				/>
 			)}
 		</div>
