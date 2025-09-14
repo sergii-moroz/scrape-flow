@@ -4,6 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button"
 import { TaskRegistry } from "@/lib/workflow/task/registry"
 import { TaskType } from "@/types/task"
+import { DragEvent } from "react"
 
 export default function TaskMenu() {
 	return (
@@ -33,8 +34,18 @@ interface TaskMenuButtonProps {
 function TaskMenuButton({ taskType }: TaskMenuButtonProps) {
 	const task = TaskRegistry[taskType]
 
+	const onDragStart = (event: DragEvent, type: TaskType) => {
+		event.dataTransfer.setData("application/reactflow", type)
+		event.dataTransfer.effectAllowed = "move"
+	}
+
 	return (
-		<Button variant="secondary" className="flex justify-between items-center gap-2 border w-full">
+		<Button
+			variant="secondary"
+			className="flex justify-between items-center gap-2 border w-full"
+			draggable
+			onDragStart={event => onDragStart(event, taskType)}
+		>
 			<div className="flex items-center gap-2">
 				<task.icon size={20} />
 				{task.label}

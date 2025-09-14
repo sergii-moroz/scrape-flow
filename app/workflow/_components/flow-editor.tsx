@@ -6,7 +6,8 @@ import { TaskType } from "@/types/task"
 import { Background, BackgroundVariant, Controls, ReactFlow, useEdgesState, useNodesState, useReactFlow } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 import NodeComponent from "./nodes/node-component"
-import { useEffect } from "react"
+import { DragEvent, useCallback, useEffect } from "react"
+import { AppNode } from "@/types/app-node"
 
 const nodeTypes = {
 	FlowScrapeNode: NodeComponent
@@ -20,9 +21,9 @@ function FlowEditor({
 } : {
 	workflow: Workflow
 }) {
-	const [nodes, setNodes, onNodesChange] = useNodesState([])
+	const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([])
 	const [edges, setEdges, onEdgesChange] = useEdgesState([])
-	const { setViewport } = useReactFlow()
+	const { setViewport, screenToFlowPosition } = useReactFlow()
 
 	useEffect(() => {
 		try {
@@ -43,6 +44,26 @@ function FlowEditor({
 		}
 	}, [workflow.definition, setEdges, setNodes, setViewport])
 
+	const onDragOver = useCallback((event: DragEvent) => {
+		event.preventDefault()
+		event.dataTransfer.dropEffect = "move"
+	}, [])
+
+	const onDrop = useCallback((event: DragEvent) => {
+		event.preventDefault()
+		const taskType = event.dataTransfer.getData("application/reactflow")
+
+		if (typeof taskType === undefined || !taskType) return
+
+		const position = screenToFlowPosition({
+			x: event.clientX,
+			y: event.clientY
+		})
+
+		const newNode = CreateFlowNode(taskType as TaskType, position)
+		setNodes(nds => nds.concat(newNode))
+	}, [setNodes])
+
 	return (
 		<main className="h-full w-full">
 			<ReactFlow
@@ -55,6 +76,8 @@ function FlowEditor({
 				snapToGrid
 				// fitViewOptions={fitViewOptions}
 				fitView
+				onDragOver={onDragOver}
+				onDrop={onDrop}
 			>
 				<Controls position="top-left" />
 				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
