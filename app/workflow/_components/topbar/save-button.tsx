@@ -1,13 +1,17 @@
 "use client"
 
-import { UpdateWorkflow } from "@/actions/workflows/update-workflow"
+import {
+	Loader2Icon,
+	SaveIcon
+} from "lucide-react"
+
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
 import { useReactFlow } from "@xyflow/react"
-import { Loader2Icon, SaveIcon } from "lucide-react"
-import { toast } from "sonner"
+import { UpdateWorkflow } from "@/actions/workflows/update-workflow"
 
-function SaveButton({
+export default function SaveButton({
 	workflowId
 } : {
 	workflowId: string
@@ -27,7 +31,6 @@ function SaveButton({
 	return (
 		<Button
 			variant={"outline"}
-			className=""
 			disabled={saveMutation.isPending}
 			onClick={() => {
 				const workflowDefinition = JSON.stringify(toObject())
@@ -46,5 +49,3 @@ function SaveButton({
 		</Button>
 	)
 }
-
-export default SaveButton
