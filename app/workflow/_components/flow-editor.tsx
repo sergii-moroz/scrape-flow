@@ -8,9 +8,14 @@ import "@xyflow/react/dist/style.css"
 import NodeComponent from "./nodes/node-component"
 import { DragEvent, useCallback, useEffect } from "react"
 import { AppNode } from "@/types/app-node"
+import DeletableEdge from "./edges/deletable-edge"
 
 const nodeTypes = {
 	FlowScrapeNode: NodeComponent
+}
+
+const edgeTypes = {
+	default: DeletableEdge
 }
 
 // const snapGrid: [number, number] = [12, 12]
@@ -89,6 +94,7 @@ function FlowEditor({
 				onDragOver={onDragOver}
 				onDrop={onDrop}
 				onConnect={onConnect}
+				edgeTypes={edgeTypes}
 			>
 				<Controls position="top-left" />
 				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
