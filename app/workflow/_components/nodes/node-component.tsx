@@ -15,7 +15,7 @@ const NodeComponent = memo((props: NodeProps) => {
 		nodeId={props.id}
 		isSelected={props.selected}
 	>
-		<NodeHeader taskType={nodeData.type} />
+		<NodeHeader taskType={nodeData.type} nodeId={props.id} />
 
 		{/* Node Inputs */}
 		<NodeInputs>
