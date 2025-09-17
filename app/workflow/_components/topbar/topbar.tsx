@@ -8,11 +8,13 @@ import SaveButton from "./save-button"
 import ExecuteButton from "./execute-button"
 
 interface Props {
-	title: string
-	workflowId: string
+	title:				string
+	subTitle:			string
+	workflowId:		string
+	hideButtons?:	boolean
 }
 
-function Topbar({ title, workflowId }: Props ) {
+function Topbar({ title, subTitle, workflowId, hideButtons = false }: Props ) {
 	const router = useRouter()
 
 	return (
@@ -24,13 +26,17 @@ function Topbar({ title, workflowId }: Props ) {
 					</Button>
 				</TooltipWrapper>
 				<div>
-					<p className="font-bold text-ellipsis truncate">Workflow editor</p>
-					<p className="text-xs text-muted-foreground truncate text-ellipsis">{title}</p>
+					<p className="font-bold text-ellipsis truncate">{title}</p>
+					<p className="text-xs text-muted-foreground truncate text-ellipsis">{subTitle}</p>
 				</div>
 			</div>
 			<div className="flex items-center gap-1">
-				<SaveButton workflowId={workflowId} />
-				<ExecuteButton workflowId={workflowId} />
+				{!hideButtons && (
+					<>
+						<SaveButton workflowId={workflowId} />
+						<ExecuteButton workflowId={workflowId} />
+					</>
+				)}
 			</div>
 		</header>
 	)

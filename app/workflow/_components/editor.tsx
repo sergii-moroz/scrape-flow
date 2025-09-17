@@ -18,7 +18,8 @@ function Editor({
 				<div className="flex flex-col h-full w-full overflow-hidden">
 
 					<Topbar
-						title={workflow.name}
+						title="Workflow editor"
+						subTitle={workflow.name}
 						workflowId={workflow.id}
 					/>
 

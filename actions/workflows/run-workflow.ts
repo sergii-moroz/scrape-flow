@@ -5,6 +5,7 @@ import { FlowToExecutionPlan } from "@/lib/workflow/execution-plan"
 import { TaskRegistry } from "@/lib/workflow/task/registry"
 import { PhaseExecutionStatus, WorkflowExecutionPlan, WorkflowExecutionStatus, WorkflowExecutionTrigger } from "@/types/workflow"
 import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 
 export async function RunWorkflow(form: {
 	workflowId: string
@@ -63,4 +64,5 @@ export async function RunWorkflow(form: {
 
 	if (!execution) throw new Error("workflow execution not created")
 
+	redirect(`/workflow/runs/${workflowId}/${execution.id}`)
 }
